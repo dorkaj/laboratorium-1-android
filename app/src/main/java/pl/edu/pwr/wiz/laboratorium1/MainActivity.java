@@ -1,7 +1,9 @@
 package pl.edu.pwr.wiz.laboratorium1;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.BadParcelableException;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,6 +22,14 @@ import static android.graphics.Color.BLACK;
 import static android.graphics.Color.WHITE;
 
 public class MainActivity extends AppCompatActivity {
+
+    private final String TEXT_COLOR = "textColor";
+    private final  String BACKGROUND_COLOR = "backgroundColor";
+    private static final int CHANGE_SETTINGS = 0;
+    private static final String TAG = "MainActivity";
+    private TextView welcome;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,16 +38,33 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+// @TODO wyświetlać Snackbar
         FloatingActionButton fab = (FloatingActionButton) this.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // @TODO wyświetlać Snackbar
+                Snackbar.make(view, "more info", Snackbar.LENGTH_LONG).show();
 
             }
         });
 
         // @TODO wyswietlac i ukrywac obrazek
+
+        final ImageView image1 = (ImageView) this.findViewById(R.id.image1);
+        Button button1 = (Button) this.findViewById(R.id.button1);
+        button1.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                Log.i(TAG, "Click on button1");
+                if (image1.getVisibility() == View.VISIBLE) {
+                    image1.setVisibility(View.INVISIBLE);
+                }else{
+                    image1.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
     }
 
     @Override
@@ -57,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
              /* Pobierz dane o aktualnych kolorach do nowej aktywnosci */
-            TextView welcome = (TextView) findViewById(R.id.welcome);
+             welcome = (TextView) findViewById(R.id.welcome);
             int textColor = welcome.getCurrentTextColor();
 
             ColorDrawable cd = (ColorDrawable) welcome.getBackground();
@@ -69,6 +96,12 @@ public class MainActivity extends AppCompatActivity {
             }
 
             // @TODO otworz aktywnosc z ustawieniami i przeslij do niej aktualne kolory - hint uzyj funkcji startActivityForResult
+
+
+            Intent data = new Intent ("pl.edu.pwr.wiz.laboratorium1.SettingsActivity");
+            data.putExtra(TEXT_COLOR, textColor);
+            data.putExtra(BACKGROUND_COLOR, backgroundColor);
+            startActivityForResult(data, CHANGE_SETTINGS);
 
             return true;
         }
@@ -82,9 +115,14 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == SettingsActivity.CHANGE_SETTINGS) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK && data != null) {
+                int textColor = data.getIntExtra(TEXT_COLOR, Color.BLACK);
+                int backgraundColor = data.getIntExtra(BACKGROUND_COLOR, Color.WHITE);
                 // @TODO Pobierz dane powrotne z Intentu 'data'
 
                 // @TODO Zmien kolor tekstu w TextView o id welcome
+
+                welcome.setTextColor(textColor);
+                welcome.setBackgroundColor(backgraundColor);
 
                 // Wyswietlamy info, ze dane zostaly zapisane
                 String txt = (String) data.getStringExtra("txt");
