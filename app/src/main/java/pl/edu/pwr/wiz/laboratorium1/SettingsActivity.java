@@ -13,8 +13,6 @@ import yuku.ambilwarna.AmbilWarnaDialog;
 public class SettingsActivity extends AppCompatActivity {
     public static final int CHANGE_SETTINGS = 0;
     private int textColor, backgroundColor;
-    private final String TEXT_COLOR = "textColor";
-    private  final  String BACKGROUND_COLOR = "backgroundColor";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,9 +23,11 @@ public class SettingsActivity extends AppCompatActivity {
 
         // @TODO Pobierz aktualne kolory */
 
-        Intent data = getIntent();
-        textColor = data.getIntExtra(TEXT_COLOR, Color.BLACK);
-        backgroundColor = data.getIntExtra(BACKGROUND_COLOR,Color.WHITE);
+        Bundle bundle = getIntent().getExtras();
+        if (bundle!=null){
+            backgroundColor = bundle.getInt("backgroundColor");
+            textColor = bundle.getInt("textColor");
+        }
 
     }
 
@@ -36,8 +36,8 @@ public class SettingsActivity extends AppCompatActivity {
 
         // @TODO Przekaż dane powrotne z nowymi kolorami
 
-        result.putExtra(TEXT_COLOR, textColor);
-        result.putExtra(BACKGROUND_COLOR, backgroundColor);
+        result.putExtra("textColor", textColor);
+        result.putExtra("backgroundColor", backgroundColor);
         result.putExtra("txt", "Ustawienia zapisane");
         setResult(Activity.RESULT_OK, result);
         finish();
@@ -70,9 +70,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onOk(AmbilWarnaDialog dialog, int color) {
-                backgroundColor = color;
-            }
+            public void onOk(AmbilWarnaDialog dialog, int color) { backgroundColor = color; }
         });
         dialog.show();
     }

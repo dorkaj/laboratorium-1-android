@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.BadParcelableException;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -24,16 +25,18 @@ import static android.graphics.Color.WHITE;
 public class MainActivity extends AppCompatActivity {
 
     private final String TEXT_COLOR = "textColor";
-    private final  String BACKGROUND_COLOR = "backgroundColor";
     private static final int CHANGE_SETTINGS = 0;
     private static final String TAG = "MainActivity";
-    private TextView welcome;
+    TextView welcome;
+    CoordinatorLayout coordinatorLayout;
+    int backgroundColor, textColor;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        coordinatorLayout = (CoordinatorLayout)findViewById(R.id.coordinatorLayout);
 
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -87,8 +90,8 @@ public class MainActivity extends AppCompatActivity {
              welcome = (TextView) findViewById(R.id.welcome);
             int textColor = welcome.getCurrentTextColor();
 
-            ColorDrawable cd = (ColorDrawable) welcome.getBackground();
-            int backgroundColor;
+            ColorDrawable cd = (ColorDrawable) coordinatorLayout.getBackground();
+
             if(cd != null) {
                 backgroundColor = cd.getColor();
             } else {
@@ -100,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
             Intent data = new Intent ("pl.edu.pwr.wiz.laboratorium1.SettingsActivity");
             data.putExtra(TEXT_COLOR, textColor);
-            data.putExtra(BACKGROUND_COLOR, backgroundColor);
+            data.putExtra("backgrounColor", backgroundColor);
             startActivityForResult(data, CHANGE_SETTINGS);
 
             return true;
@@ -116,13 +119,13 @@ public class MainActivity extends AppCompatActivity {
             // Make sure the request was successful
             if (resultCode == RESULT_OK && data != null) {
                 int textColor = data.getIntExtra(TEXT_COLOR, Color.BLACK);
-                int backgraundColor = data.getIntExtra(BACKGROUND_COLOR, Color.WHITE);
+                int backgraundColor = data.getIntExtra("backgroundColor", Color.WHITE);
                 // @TODO Pobierz dane powrotne z Intentu 'data'
 
                 // @TODO Zmien kolor tekstu w TextView o id welcome
 
                 welcome.setTextColor(textColor);
-                welcome.setBackgroundColor(backgraundColor);
+                coordinatorLayout.setBackgroundColor(backgraundColor);
 
                 // Wyswietlamy info, ze dane zostaly zapisane
                 String txt = (String) data.getStringExtra("txt");

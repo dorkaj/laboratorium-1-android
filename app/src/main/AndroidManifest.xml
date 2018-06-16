@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".SettingsActivity">
-            <intent-filter>
+            /<intent-filter>
                 <action android:name="pl.edu.pwr.wiz.laboratorium1.SettingsActivity" />
                 <category android:name="android.intent.category.DEFAULT"/>
 
