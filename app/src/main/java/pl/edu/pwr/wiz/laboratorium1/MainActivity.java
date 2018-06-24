@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     TextView welcome;
     CoordinatorLayout coordinatorLayout;
-    int backgroundColor, textColor;
+    private int backgroundColor, textColor;
 
 
     @Override
@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         coordinatorLayout = (CoordinatorLayout)findViewById(R.id.coordinatorLayout);
+        TextView textView = (TextView)findViewById(R.id.welcome);
 
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -88,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
              /* Pobierz dane o aktualnych kolorach do nowej aktywnosci */
              welcome = (TextView) findViewById(R.id.welcome);
-            int textColor = welcome.getCurrentTextColor();
+             textColor = welcome.getCurrentTextColor();
 
             ColorDrawable cd = (ColorDrawable) coordinatorLayout.getBackground();
 
@@ -103,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
             Intent data = new Intent ("pl.edu.pwr.wiz.laboratorium1.SettingsActivity");
             data.putExtra(TEXT_COLOR, textColor);
-            data.putExtra("backgrounColor", backgroundColor);
+            data.putExtra("backgroundColor1", backgroundColor);
             startActivityForResult(data, CHANGE_SETTINGS);
 
             return true;
@@ -118,8 +119,8 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == SettingsActivity.CHANGE_SETTINGS) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK && data != null) {
-                int textColor = data.getIntExtra(TEXT_COLOR, Color.BLACK);
-                int backgraundColor = data.getIntExtra("backgroundColor", Color.WHITE);
+                int textColor = data.getIntExtra("textColor1", Color.BLACK);
+                int backgraundColor = data.getIntExtra("backgroundColor1", Color.WHITE);
                 // @TODO Pobierz dane powrotne z Intentu 'data'
 
                 // @TODO Zmien kolor tekstu w TextView o id welcome

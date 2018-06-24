@@ -25,7 +25,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         if (bundle!=null){
-            backgroundColor = bundle.getInt("backgroundColor");
+            backgroundColor = bundle.getInt("backgroundColor1");
             textColor = bundle.getInt("textColor");
         }
 
@@ -36,8 +36,8 @@ public class SettingsActivity extends AppCompatActivity {
 
         // @TODO Przekaż dane powrotne z nowymi kolorami
 
-        result.putExtra("textColor", textColor);
-        result.putExtra("backgroundColor", backgroundColor);
+        result.putExtra("textColor1", textColor);
+        result.putExtra("backgroundColor1", backgroundColor);
         result.putExtra("txt", "Ustawienia zapisane");
         setResult(Activity.RESULT_OK, result);
         finish();
